@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <script src="{% static "js/jquery-3.4.1.min.js" %}"></script>
+    <style>
+        body {
+            background: url("{% static "images/cup-of-coffee-1280537_1920.jpg" %}") no-repeat center center/cover fixed;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+{% include 'navigation.html' %}
+<div class="container" style="background: rgba(255,255,255,0.8);padding-bottom: 1.5%">
+    <h1 class="text-center" style=";font-size: 40px ;color: blue;padding-top: 10%;margin-bottom: 3%">ADMIN SIGNUP</h1>
+
+    <form action="addnewadmin" method="post" enctype="multipart/form-data" id="form" class="w-75 mx-auto p-3"
+          style="box-shadow: 1px 1px 35px black">
+        {% csrf_token %}
+        <div class="w-75 mx-auto p-3">
+            <div class="form-group">
+                <label for="email" style="font-size: 25px;font-style: italic">Email</label>
+                <input type="text" required class="form-control" name="email" id="email">
+            </div>
+
+
+            <div class="form-group">
+                <label for="password" style="font-size: 25px;font-style: italic">Password</label>
+                <input type="password" required class="form-control" name="password" id="password">
+            </div>
+
+
+            <div class="form-group">
+                <label for="type" style="font-size: 25px;font-style: italic">Type</label>
+                <input type="text" required class="form-control" name="type" id="type">
+            </div>
+
+            <div class="form-group">
+                <label for="mobile" style="font-size: 25px;font-style: italic">Mobileno</label>
+                <input type="text" required class="form-control" name="mobile" id="mobile">
+            </div>
+
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-success w-50 badge-pill">Add</button>
+                {#            <input type="submit" class="btn-success" value="submit">#}
+            </div>
+
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>

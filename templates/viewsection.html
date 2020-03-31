@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'fontawesome-free-5.11.2-web/css/all.css' %}">
+    <style>
+        body {
+            background: url("{% static "images/notebook-1280538_1920.jpg" %}") no-repeat center center/cover fixed;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+{% include 'navigation.html' %}
+<div class="container" style="padding-top: 5%">
+    <div style="background: rgba(255,255,255,0.6)" class="p-5">
+        <h1 class="text-center" style="font-family: 'Dosis', sans-serif; ">VIEW SECTIONS</h1>
+    </div>
+
+    <hr class="bg-danger">
+<div class="table-responsive" >
+<table class="table table-bordered table-hover table-light">
+<thead class="bg-dark text-white">
+<tr>
+    <th   >Section id</th>
+    <th   >Section name</th>
+    <th   >Max questions</th>
+    <th   >Marks</th>
+    <th   >Negative Marks</th>
+    <th   >Action</th>
+    <th   ></th>
+</tr>
+</thead>
+{% for item in ar %}
+    <div class="mt-2">
+<tr>
+<td>{{ item.sectionid }}</td>
+<td>{{ item.sectionname }}</td>
+<td>{{ item.maxques }}</td>
+<td>{{ item.marks }}</td>
+<td>{{ item.negmarks }}</td>
+<td><a href="deletesection?q={{ item.sectionid }}"><img style="width: 25px; height: 25px" src="{% static "delete.png" %}"></a></td>
+    <td><a href="editsection?q1={{ item.sectionid }}"><img style="width: 25px; height: 25px" src="{% static "edit.png" %}"></a></td>
+</tr>
+{% endfor %}
+    </div>
+</table>
+
+</div>
+</div>
+</body>
+</html>

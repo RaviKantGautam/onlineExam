@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'mycss/adminlogin.css' %}">
+    <script src="{% static "js/jquery-3.4.1.min.js" %}"></script>
+    <title>Computerize Exam</title>
+    <script>
+        $(document).ready(function () {
+            $('.login-info-box').fadeOut();
+            $('.login-show').addClass('show-log-panel');
+        });
+    </script>
+
+</head>
+<body>
+<div class="login-reg-panel">
+    <div class="login-info-box">
+        <h2>Have an account?</h2>
+        <p>Lorem ipsum dolor sit amet</p>
+        <label id="label-register" for="log-reg-show">Login</label>
+        <input type="radio" name="active-log-panel" id="log-reg-show" checked="checked">
+    </div>
+
+    <div class="register-info-box">
+        <h2>Please Sign-In to explore yourself!</h2>
+        <p>Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, temporibus!</p>
+    </div>
+    <div class="white-panel">
+        <div class="login-show">
+            <h2>ADMIN LOGIN</h2>
+            <form action="login" method="GET">
+                <input type="text" required name="email" id="email" placeholder="Email">
+                <input type="password" required name="password" id="password" placeholder="Password">
+                <input type="submit" value="Login">
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

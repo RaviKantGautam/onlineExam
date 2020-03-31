@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <style>
+        body {
+            background: url("{% static "images/cup-of-coffee-1280537_1920.jpg" %}") no-repeat center center/cover fixed;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+{% include 'navigation.html' %}
+<div class="container" style="background: rgba(255,255,255,0.8);padding-bottom: 1.5%">
+    <h1 class="text-center" style=";font-size: 40px ;color: blue;padding-top: 10%;margin-bottom: 3%">ADD SECTION</h1>
+    <form action="addnewsection" method="GET" class="w-75 mx-auto p-3" style="box-shadow: 1px 1px 35px black">
+        <div class="w-75 mx-auto p-3">
+            <div class="form-group ">
+
+                <label for="sectionname" style="font-size: 25px;font-style: italic">Sectionname</label>
+                <input type="text" required class="form-control" name="sectionname" id="sectionname">
+            </div>
+
+            <div class="form-group ">
+
+                <label for="maxquestions" style="font-size: 25px;font-style: italic">Maximum questions</label>
+                <input type="text" required class="form-control" name="maxques" id="maxques">
+            </div>
+
+            <div class="form-group ">
+
+                <label for="marks" style="font-size: 25px;font-style: italic">Marks</label>
+                <input type="text" required class="form-control" name="marks" id="marks">
+            </div>
+
+            <div class="form-group ">
+
+                <label for="negmarks" style="font-size: 25px;font-style: italic">Negative marks</label>
+                <input type="text" required class="form-control" name="negmarks" id="negmarks">
+            </div>
+
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-success w-50 badge-pill">Add</button>
+                {#            <input type="submit" class=" btn btn-success" value="Add">#}
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

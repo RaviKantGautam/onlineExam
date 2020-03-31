@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+<link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+</head>
+<body>
+<h1>Show questions</h1>
+<table class="table">
+    <tr>
+        <th>Qid</th>
+        <th>sectionid</th>
+        <th>question</th>
+        <th>optiona</th>
+        <th>optionb</th>
+        <th>optionc</th>
+        <th>optiond</th>
+        <th>answer</th>
+    </tr>
+    {% for item in ar %}
+    <tr>
+        <td>{{ item.qid }}</td>
+        <td>{{ item.sectionid }}</td>
+        <td>{{ item.question }}</td>
+        <td>{{ item.optiona }}</td>
+        <td>{{ item.optionb }}</td>
+        <td>{{ item.optionc }}</td>
+        <td>{{ item.optiond }}</td>
+        <td>{{ item.answer }}</td>
+    <td><a href="deletequestion?q={{ item.qid }}"><img style="width: 25px; height: 25px" src="{% static "delete.png" %}"></a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

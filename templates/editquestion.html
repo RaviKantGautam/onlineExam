@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <style>
+        body {
+            background: url("{% static "images/cup-of-coffee-1280537_1920.jpg" %}") no-repeat center center/cover fixed;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+{% include 'navigation.html' %}
+<div class="container" style="background: rgba(255,255,255,0.8);padding-bottom: 1.5%">
+    <h1 class="text-center" style=";font-size: 40px ;color: blue;padding-top: 10%;margin-bottom: 3%">EDIT QUESTION</h1>
+
+    <form action="savequestion" method="GET" class="w-75 mx-auto p-3" style="box-shadow: 1px 1px 35px black">
+      <div class="w-75 mx-auto p-3">
+            <div class="form-group ">
+                <label for="qid" style="font-size: 25px;font-style: italic">qid</label>
+                <input type="text" readonly class="form-control" name="qid" value="{{ ar.qid }}">
+       </div>
+      
+            <div class="form-group ">
+                <label for="sectionid" style="font-size: 25px;font-style: italic">Sectionid</label>
+                <input type="text" readonly class="form-control" name="sectionid" value="{{ ar.sectionid }}">
+       </div>
+      
+            <div class="form-group ">
+                <label for="questions" style="font-size: 25px;font-style: italic">Question</label>
+                <textarea name="question" id="question" class="form-control" cols="20"
+                          rows="5">{{ ar.question }}</textarea>
+                {#                <input type="text"  class="form-control" cols="20" rows="5" name="question" value="{{ ar.question}}">#}
+       </div>
+      
+            <div class="form-group ">
+                <label for="optiona" style="font-size: 25px;font-style: italic">Option A</label>
+                <input type="text" required class="form-control" name="optiona" value="{{ ar.optiona }}">
+       </div>
+      
+            <div class="form-group ">
+                <label for="optionb" style="font-size: 25px;font-style: italic">Option B</label>
+                <input type="text" required class="form-control" name="optionb" value="{{ ar.optionb }}">
+       </div>
+      
+            <div class="form-group ">
+                <label for="optionc" style="font-size: 25px;font-style: italic">Option C</label>
+                <input type="text" required class="form-control" name="optionc" value="{{ ar.optionc }}">
+       </div>
+      
+            <div class="form-group ">
+                <label for="optiond" style="font-size: 25px;font-style: italic">Option D</label>
+                <input type="text" required class="form-control" name="optiond" value="{{ ar.optiond }}">
+       </div>
+      
+            <div class="form-group ">
+                <label for="answer" style="font-size: 25px;font-style: italic">Answer</label>
+                <input type="text" required class="form-control" name="answer" value="{{ ar.answer }}">
+       </div>
+      
+            <div class="form-group ">
+                <label for="answer" style="font-size: 25px;font-style: italic">Flag</label>
+                <input type="text" required class="form-control" name="flag" value="{{ ar.flag }}">
+       </div>
+
+        <div class="form-group text-center">
+            <input type="submit" class=" btn btn-success w-50 badge-pill" value="save">
+        </div>
+      </div>
+    </form>
+</div>
+</body>
+</html>

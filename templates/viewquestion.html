@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'fontawesome-free-5.11.2-web/css/all.css' %}">
+    <style>
+        body {
+            background: url("{% static "images/notebook-1280538_1920.jpg" %}") no-repeat center center/cover fixed;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+    </style>
+    <script>
+        function show(v) {
+            document.getElementById("fid").value = v;
+            $("#myModal").modal('show');
+        }
+
+        function fetchsubcat(v) {
+            var xml = new XMLHttpRequest();
+            xml.onreadystatechange = function () {
+                if (this.readyState == 4 & this.status == 200) {
+                    var response = JSON.parse(this.response);
+                    var ans = "";
+                    {#alert(response.length);#}
+                    ans += `<table class="table table-bordered table-hover table-light" style="font-size: 15px;">`;
+                    ans += " <tr class=\"bg-dark text-white\">";
+                    ans += "<th>Question id</th>";
+                    ans += "<th>Section id</th>";
+                    ans += "<th>Question</th>";
+                    ans += "<th>Option A</th>";
+                    ans += "<th>Option B</th>";
+                    ans += "<th>Option C</th>";
+                    ans += "<th>Option D</th>";
+                    ans += "<th>Answer</th>";
+                    ans += "<th>Flag</th>";
+                    ans += "<th colspan='2'> Action</th>";
+                    ans += "</tr>";
+                    for (var i = 0; i < response.length; i++) {
+                        ans += " <tr>";
+                        ans += "<td>" + response[i][0] + "</td>";
+                        ans += "<td>" + response[i][1] + "</td>";
+                        ans += "<td>" + response[i][2] + "</td>";
+                        ans += "<td>" + response[i][3] + "</td>";
+                        ans += "<td>" + response[i][4] + "</td>";
+                        ans += "<td>" + response[i][5] + "</td>";
+                        ans += "<td>" + response[i][6] + "</td>";
+                        ans += "<td>" + response[i][7] + "</td>";
+                        ans += "<td>" + response[i][8] + "</td>";
+                        ans += `<td><a type='button' onclick='deletequestion('${response[i][0]}')'><img src='{% static 'delete.png' %}' width='25' height='25' alt=''></a></td>`;
+                        {#ans += "<td><button type='button' class='btn btn-success' onclick='editquestion(" + response[i][0] + ")'><i class='fa fa-2x fa-edit'></i></button></td>";#}
+                        ans += `<td><a href='editquestion?q=${response[i][0]}'><img src='{% static 'edit.png' %}' width='25' height='25' alt=''></a></td>`;
+                        ans += "</tr>";
+                    }
+                    ans += " </table>";
+                    document.getElementById("divsubcat").innerHTML = ans;
+                }
+            };
+            xml.open('GET', 'fetchquestions?secid=' + v);
+            xml.send();
+        }
+
+        function deletequestion(q) {
+            if (confirm("Do you really  want to Delete this question")) {
+                var xml = new XMLHttpRequest();
+                xml.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        window.location.href = "viewquestion";
+                    }
+                };
+                xml.open('GET', 'deletequestion?q=' + q, true);
+                xml.send();
+            }
+        }
+
+        function editquestion(q) {
+            {#alert(q);#}
+            var xml = new XMLHttpRequest();
+            xml.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var response = JSON.parse(this.response);
+                    {#alert(response);#}
+                    var s = "";
+                    var response = data['x'];
+                    for (var i = 0; i < response.length; i++) {
+                        $("qid".val(response[i]['qid']));
+                        $("sectionid".val(response[i]['sectionid']));
+                        $("question".val(response[i]['question']));
+                        $("optiona".val(response[i]['optiona']));
+                        $("optionb".val(response[i]['optionb']));
+                        $("optionc".val(response[i]['optionc']));
+                        $("optiond".val(response[i]['optiond']));
+                        $("answer".val(response[i]['answer']));
+                        $("flag".val(response[i]['flag']));
+                        {#$("editquestion").modal("viewquestion")#}
+                        {# alert(q);#}
+                        window.location.href = "viewquestion"
+                    }
+                }
+            };
+            xml.open('GET', 'editquestion?q=' + q, true);
+            xml.send();
+        }
+    </script>
+</head>
+<body>
+{% include 'navigation.html' %}
+<div class="container" style="padding-top: 5%">
+    <div style="background: rgba(255,255,255,0.6)" class="p-5">
+        <h1 class="text-center" style="font-family: 'Dosis', sans-serif; ">VIEW QUESTIONS</h1>
+    </div>
+
+    <hr class="bg-danger">
+    <div class="container" style="background: rgba(0,0,0,0.5);color: white">
+        <div class="w-100 d-inline-flex p-4">
+            <div style="font-size: 30px;font-style: italic">Select Section : &nbsp;</div>
+            <select name="secid" id="secid" class="form-control w-50" onchange="fetchsubcat(this.value)">
+                {% for row in ar %}
+                    <option value="{{ row.sectionid }}">{{ row.sectionname }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <hr class="bg-danger">
+<div class="table-responsive">
+    <div id="divsubcat"></div>
+</div>
+</div>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Header</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form action="actioneditphoto" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="furnitureid">furniture id</label>
+                        <input type="text" readonly id="fid" required name="fid" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">choose photo</label>
+                        <input type="file" id="editphoto" name="editphoto">
+                        <input type="submit" value="save" class="btn btn-success mt-1 text-center">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    function demo() {
+        console.log({{request.session.currentquestion | safe }});
+    }
+</script>
+</body>
+</html>

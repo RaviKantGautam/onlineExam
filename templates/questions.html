@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <style>
+        body {
+            background: url("{% static "images/cup-of-coffee-1280537_1920.jpg" %}") no-repeat center center/cover fixed;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+{% include 'navigation.html' %}
+<div class="container" style="background: rgba(255,255,255,0.8);padding-bottom: 1.5%">
+    <h1 class="text-center" style=";font-size: 40px ;color: blue;padding-top: 10%;margin-bottom: 3%">ADD QUESTION</h1>
+    <form action="addquestion" method="GET" class="w-75 mx-auto p-3" style="box-shadow: 1px 1px 35px black">
+        <div class="w-75 mx-auto p-3">
+
+            <div class="form-group ">
+
+                <label for="selectsection" style="font-size: 25px;font-style: italic"> Select Section</label>
+                <select name="sectionid" class="form-control">
+                    {% for item in ar %}
+                        <option value="{{ item.sectionid }}">{{ item.sectionname }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group ">
+                <label for="question" style="font-size: 25px;font-style: italic">Question</label>
+                <textarea type="text" class="form-control" cols="20" rows="5" name="question" id="question"></textarea>
+            </div>
+
+            <div class="form-group ">
+                <label for="optiona" style="font-size: 25px;font-style: italic">Option A</label>
+                <input type="text" class="form-control" name="optiona" id="optiona">
+            </div>
+
+            <div class="form-group ">
+                <label for="optionb" style="font-size: 25px;font-style: italic">Option B</label>
+                <input type="text" class="form-control" name="optionb" id="optionb">
+            </div>
+
+            <div class="form-group ">
+                <label for="optionc" style="font-size: 25px;font-style: italic">Option C</label>
+                <input type="text" class="form-control" name="optionc" id="optionc">
+            </div>
+
+            <div class="form-group ">
+                <label for="optiond" style="font-size: 25px;font-style: italic">Option D</label>
+                <input type="text" class="form-control" name="optiond" id="optiond">
+            </div>
+
+            <div class="form-group ">
+                <label for="answer" style="font-size: 25px;font-style: italic">Answer</label>
+                <input type="text" class="form-control" name="answer" id="answer">
+            </div>
+
+        <div class="form-group ">
+            <label for="select flag" style="font-size: 25px;font-style: italic">Select Flag</label>
+            <select class="form-control" name="flag">
+
+                <option value="0">0</option>
+                <option value="1">1</option>
+            </select>
+        </div>
+
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-success w-50 badge-pill">Add</button>
+        </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

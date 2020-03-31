@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'fontawesome-free-5.11.2-web/css/all.css' %}">
+    <style>
+        body {
+            background: url("{% static "images/notebook-1280538_1920.jpg" %}") no-repeat center center/cover fixed;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+{% include 'navigation.html' %}
+<div class="container" style="padding-top: 5%">
+    <div style="background: rgba(255,255,255,0.6)" class="p-5">
+        <h1 class="text-center" style="font-family: 'Dosis', sans-serif; ">VIEW QUESTIONS</h1>
+    </div>
+    <hr class="bg-danger">
+<table class="table table-bordered table-hover table-light">
+<thead class="bg-dark text-white">
+     <tr>
+         <th  >Streamid</th>
+         <th  >Streamname</th>
+         <th  >Description</th>
+         <th  >Pass percentage</th>
+         <th  >Action</th>
+         <th  >Delete</th>
+     </tr>
+     </thead>
+    {% for item in ar %}
+    <tr>
+        <td>{{ item.streamid }}</td>
+        <td>{{ item.streamname}}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.passper }}</td>
+    <td><a href="deletestream?q={{ item.streamid }}"><img style="width: 25px; height: 25px" src="{% static "delete.png" %}"></a></td>
+    <td><a href="editstream?q1={{ item.streamid }}"><img style="width: 25px; height: 25px" src="{% static "edit.png" %}"></a></td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+</body>
+</html>

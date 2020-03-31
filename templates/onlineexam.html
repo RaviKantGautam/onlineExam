@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load static %}
+    {#    {% include 'usernavigation.html' %}#}
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <title>Document</title>
+    <style>
+        body {
+            background: url("{% static "images/student-849821_1920.jpg" %}") no-repeat center center/cover fixed;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+    </style>
+
+</head>
+<body>
+{% include "usernavigation.html" %}
+<div class="container text-center" style="background: rgba(0,0,0,0.5)">
+    <div class="display-4 text-white font-weight-bolder font-italic pt-5">Challenge Your IQ Today</div>
+    <div class="h5 text-white text-warning">Taget the best goal!!</div>
+</div>
+<div class="container" style="background: rgba(255,255,255,.7)">
+    <div class="p-4">
+        <span class="h1 font-italic text-danger">Choose Your Topic Here!!</span>
+        <select name="sel" id="sel" class="dropdown btn bg-dark text-light badge-pill m-3"
+                onchange="fetchquestionforexam(this.value),start()">
+            <option value="">select section</option>
+            {% for r in ar %}
+                <option value="{{ r.sectionid }}">{{ r.sectionname }}</option>
+            {% endfor %}
+        </select>
+        <button type="button" id="submitbutton" name="submitbutton" onclick="submittest()"
+                class="btn btn-info badge-pill p-2 m-2">Submit Test
+        </button>
+    </div>
+</div>
+<div class="container mt-4 p-3" style="background:black !important;">
+    <p class="h1 font-weight-bold text-light">
+        Time Left: <span id="demo" class="text-danger">Start</span>
+    </p>
+</div>
+<div class="container mt-4 mb-4 p-3" style="background:whitesmoke !important;">
+    <!--   question structure -->
+    <div id="viewquestions"><span class="p-4 h1 text-primary">Select The Topic Above and testify yourself ! ! !</span></div>
+    <!-- end  --------->
+</div>
+<script>
+
+    function start() {
+
+
+        // Set the date we're counting down to
+        var countDownDate = new Date();
+        countDownDate.setSeconds(180);
+
+        // Update the count down every 1 second
+        var x = setInterval(function () {
+
+            // Get today's date and time
+            var now = new Date();
+            now.getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+            console.log(Math.round(distance % (1000 * 60) / (1000 * 60)));
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Output the result in an element with id="demo"
+            document.getElementById("demo").innerHTML = minutes + ":" + seconds + "m";
+
+            // If the count down is over, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "Time Up";
+                submittest();
+            }
+        }, 1000);
+    }
+</script>
+<script>
+    var secid = "";
+
+    function fetchquestionforexam() {
+        var x = document.getElementById("sel").value;
+        var xml = new XMLHttpRequest();
+        xml.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                // alert(this.response);
+                var output = JSON.parse(this.response);
+                s = "";
+                s += "<div><h3 class='border border-dark p-3'>" + output[0]["question"] + "</h3>";
+                s += "<div class='row mt-3'>";
+                s += "<div class='col-sm-6 border border-primary pt-2'><input type='radio' name='answer' id='optiona' value='A' onchange='submitanswer(this.value)'><strong class='ml-3'>A. </strong><p class='text-dark d-inline-flex ml-4'>" + output[0]["optiona"] + "</p></div>";
+                s += "<div class='col-sm-6 border border-primary pt-2'><input type='radio' name='answer' id='optionb' value='B' onchange='submitanswer(this.value)'><strong class='ml-3'>B. </strong><p class='text-dark d-inline-flex ml-4'>" + output[0]["optionb"] + "</p></div>";
+                s += "</div>";
+                s += "<div class='row mt-3'>";
+                s += "<div class='col-sm-6 border border-primary pt-2'><input type='radio' name='answer' id='optionc' value='C' onchange='submitanswer(this.value)'><strong class='ml-3'>C. </strong><p class='text-dark d-inline-flex ml-4'>" + output[0]["optionc"] + "</p></div>";
+                s += "<div class='col-sm-6 border border-primary pt-2'><input type='radio' name='answer' id='optiond' value='D' onchange='submitanswer(this.value)'><strong class='ml-3'>D. </strong><p class='text-dark d-inline-flex ml-4'>" + output[0]["optiond"] + "</p></div>";
+                s += "</div></div>";
+                s += "<div class='pt-3'><button type='button' id='bt1' name='bt1' value='0' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>1</button>";
+                s += "<button type='button' id='bt2' name='bt2' value='1' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>2</button>";
+                s += "<button type='button' id='bt3' name='bt3' value='2' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>3</button>";
+                s += "<button type='button' id='bt4' name='bt4' value='3' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>4</button>";
+                s += "<button type='button' id='bt5' name='bt5' value='4' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>5</button>";
+                s += "<button type='button' id='bt6' name='bt6' value='5' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>6</button>";
+                s += "<button type='button' id='bt7' name='bt7' value='6' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>7</button>";
+                s += "<button type='button' id='bt8' name='bt8' value='7' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>8</button>";
+                s += "<button type='button' id='bt9' name='bt9' value='8' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>9</button>";
+                s += "<button type='button' id='bt10' name='bt10' value='9' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>10</button></div>";
+
+
+                document.getElementById("viewquestions").innerHTML = s;
+                {#fetchnextquestion(id);#}
+            }
+        };
+        xml.open("GET", "fetchquestionforexam?sel=" + x, true);
+        xml.send();
+    }
+
+    function fetchnextquestion(id) {
+        var xml = new XMLHttpRequest();
+        xml.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                // alert(this.response);
+                var ans = JSON.parse(this.response);
+                var output = ans[0];
+                var done = ans[1];
+                s = "";
+                for (var i = 0; i < output.length; i++) {
+                    s += "<div><h3 class='border border-light'>" + output[i]["question"] + "</h3>";
+                    s += "<div class='row mt-3'>";
+                    if (output[i]['useranswer'] == "optiona") {
+                        s += "<div class='col-sm-6 border border-light'><input type='radio' checked=\"true\" name='answer' id='optiona' value='A' onchange='submitanswer(this.value)'><strong class='ml-3'>A. </strong><p class='text-dark d-inline-flex ml-4'>" + output[i]["optiona"] + "</p></div>";
+                    } else {
+                        s += "<div class='col-sm-6 border border-light'><input type='radio' name='answer' id='optiona' value='A' onchange='submitanswer(this.value)'><strong class='ml-3'>A. </strong><p class='text-dark d-inline-flex ml-4'>" + output[i]["optiona"] + "</p></div>";
+                    }
+                    if (output[i]['useranswer'] == "optionb") {
+                        s += "<div class='col-sm-6 border border-light'><input type='radio'  checked=\"true\" name='answer' id='optionb' value='B' onchange='submitanswer(this.value)'><strong class='ml-3'>B. </strong><p class='text-dark d-inline-flex ml-4'>" + output[i]["optionb"] + "</p></div>";
+                    } else {
+                        s += "<div class='col-sm-6 border border-light'><input type='radio' name='answer' id='optionb' value='B' onchange='submitanswer(this.value)'><strong class='ml-3'>B. </strong><p class='text-dark d-inline-flex ml-4'>" + output[i]["optionb"] + "</p></div>";
+                    }
+                    s += "</div>";
+                    s += "<div class='row mt-3'>";
+                    if (output[i]['useranswer'] == "optionc") {
+                        s += "<div class='col-sm-6 border border-light'><input  checked=\"true\" type='radio' name='answer' id='optionc' value='C' onchange='submitanswer(this.value)'><strong class='ml-3'>C. </strong><p class='text-dark d-inline-flex ml-4'>" + output[i]["optionc"] + "</p></div>";
+                    } else {
+                        s += "<div class='col-sm-6 border border-light'><input type='radio' name='answer' id='optionc' value='C' onchange='submitanswer(this.value)'><strong class='ml-3'>C. </strong><p class='text-dark d-inline-flex ml-4'>" + output[i]["optionc"] + "</p></div>";
+                    }
+
+                    if (output[i]['useranswer'] == "optiond") {
+                        s += "<div class='col-sm-6 border border-light'><input checked=\"true\" type='radio' name='answer' id='optiond' value='D' onchange='submitanswer(this.value)'><strong class='ml-3'>D. </strong><p class='text-dark d-inline-flex ml-4'>" + output[i]["optiond"] + "</p></div>";
+                    } else {
+                        s += "<div class='col-sm-6 border border-light'><input type='radio' name='answer' id='optiond' value='D' onchange='submitanswer(this.value)'><strong class='ml-3'>D. </strong><p class='text-dark d-inline-flex ml-4'>" + output[i]["optiond"] + "</p></div>";
+                    }
+
+                    s += "</div></div>";
+                    var count = 1;
+                    for (var z = 0; z <= 9; z++) {
+                        var flag = 0;
+                        for (var j = 0; j < done.length; j++) {
+                            if (z == parseInt(done[j])) {
+                                flag = 1;
+                                break;
+                            }
+                        }
+
+                        if (flag == 1) {
+                            s += "<button type='button' id='bt1'  name='bt1' value='" + z + "' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-success'>" + count + "</button>";
+                            count = count + 1;
+                        } else {
+                            s += "<button type='button' id='bt1'  name='bt1' style='color: white' value='" + z + "' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>" + count + "</button>";
+                            count = count + 1;
+                        }
+                    }
+
+                    // s += "<button type='button' id='bt1'  name='bt1' value='0' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>1</button>";
+                    // s += "<button type='button' id='bt2' name='bt2' value='1' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>2</button>";
+                    // s += "<button type='button' id='bt3' name='bt3' value='2' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>3</button>";
+                    // s += "<button type='button' id='bt4' name='bt4' value='3' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>4</button>";
+                    // s += "<button type='button' id='bt5' name='bt5' value='4' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>5</button>";
+                    // s += "<button type='button' id='bt6' name='bt6' value='5' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>6</button>";
+                    // s += "<button type='button' id='bt7' name='bt7' value='6' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>7</button>";
+                    // s += "<button type='button' id='bt8' name='bt8' value='7' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>8</button>";
+                    // s += "<button type='button' id='bt9' name='bt9' value='8' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>9</button>";
+                    // s += "<button type='button' id='bt10' name='bt10' value='9' onclick='fetchnextquestion(this.value)' class='badge-pill ml-4 btn-lg btn-primary'>10</button>";
+
+
+                }
+                document.getElementById("viewquestions").innerHTML = s;
+
+            }
+        };
+        xml.open("GET", "fetchnextquestion?id=" + id, true);
+        xml.send();
+    }
+
+
+    function submitanswer(id) {
+        // var a = document.getElementById("optiona").value;
+        // console.log(a);
+        var xml = new XMLHttpRequest();
+        xml.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                {#alert("question submitted");#}
+            }
+        };
+        xml.open("GET", "submitanswer?id=" + id, true);
+        xml.send();
+    }
+
+    function submittest() {
+        alert("ooooops");
+        {#var testdata = new FormData();#}
+        var sel = document.getElementById("sel").value;
+
+        {#testdata.append("sel",document.getElementById("sel").value);#}
+        var xml = new XMLHttpRequest();
+        xml.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                alert(this.response);
+                window.location.reload();
+            }
+        };
+        xml.open("GET", "submittest?sel=" + sel, true);
+        xml.send();
+    }
+</script>
+</body>
+</html>

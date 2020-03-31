@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    {% include 'usernavigation.html' %}
+    {% load static %}
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <style>
+        body {
+            background: url("{% static "images/student-849821_1920.jpg" %}") no-repeat center center/cover fixed;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="display-4 text-center p-5 font-weight-bold text-white" style="background: rgba(0,0,0,0.5)">
+       --> <i>Result Detail</i> <--
+    </div>
+    <hr class="bg-danger">
+    <table class="table table-hover table-bordered table-dark">
+        <thead class="bg-light text-dark">
+        <tr>
+            <th>Result id</th>
+            <th>Question</th>
+            <th>Option A</th>
+            <th>Option B</th>
+            <th>Option C</th>
+            <th>Option D</th>
+            <th>Actual answer</th>
+            <th>User answer</th>
+            <th>Status</th>
+            <th>Marks</th>
+            {#            <th class="text-center">Information</th>#}
+        </tr>
+        </thead>
+        <tbody id="showresult">
+        {% for r in ar %}
+            <tr>
+                <td>{{ r.resultid }}</td>
+                <td>{{ r.questionid }}</td>
+                <td>{{ r.optiona }}</td>
+                <td>{{ r.optionb }}</td>
+                <td>{{ r.optionc }}</td>
+                <td>{{ r.optiond }}</td>
+                <td>{{ r.actualanswer }}</td>
+                <td>{{ r.useranswer }}</td>
+                <td>{{ r.status }}</td>
+                <td>{{ r.marks }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{#{{ ar }}#}
+</body>
+</html>

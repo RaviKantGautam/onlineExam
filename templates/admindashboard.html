@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <style>
+        body{
+            background: url("{% static 'images/changbok-ko-F8t2VGnI47I-unsplash.jpg' %}") no-repeat fixed center center/cover;
+        }
+    </style>
+</head>
+<body>
+{% include 'navigation.html' %}
+<div class="container">
+    <div class="text-center text-white font-italic font-weight-bold display-4" style="margin-top: 20%;outline: dashed wheat 5px;background: rgba(0,0,0,0.5)">
+        WELCOME, LOGIN SUCCESSFUL <div class="p-3" style="background: rgba(255,255,250,0.5);color: black">{{ request.session.adminemail }}</div>
+    </div>
+</div>
+</body>
+</html>

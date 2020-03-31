@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <link href="{% static "fontawesome-free-5.11.2-web/css/all.css" %}" rel="stylesheet">
+
+    {% include 'usernavigation.html' %}
+    <title>Document</title>
+    <style>
+        body {
+            background: url("{% static "images/student-849821_1920.jpg" %}") no-repeat center center/cover fixed;
+        }
+
+    </style>
+    <script>
+        function showresult() {
+            {#alert("hello");#}
+            var c = document.getElementById("apid").value;
+            {#alert(c);#}
+            var xml = new XMLHttpRequest();
+            xml.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    {#alert(this.response);#}
+                    console.log(this.response);
+                    var output = JSON.parse(this.response);
+                    s = "";
+                    for (var i = 0; i < output.length; i++) {
+                        s += "<tr>";
+                        s += "<td>" + output[i]["resultid"] + "</td>";
+                        s += "<td>" + output[i]["apid"] + "</td>";
+                        s += "<td>" + output[i]["date"] + "</td>";
+                        s += "<td>" + output[i]["sectionid"] + "</td>";
+                        s += "<td>" + output[i]["totalquestion"] + "</td>";
+                        s += "<td>" + output[i]["totalmarks"] + "</td>";
+                        s += "<td>" + output[i]["marksobtained"] + "</td>";
+                        s += "<td>" + output[i]["passstatus"] + "</td>";
+                        s += "<td>" + output[i]["questionattemped"] + "</td>";
+                        s += "<td><button class='btn btn-light' onclick='viewresultdetail(" + output[i]["resultid"] + ")'><i class='fa fa-info-circle'></i></button></td>";
+
+                        s += "</tr>";
+                        {#s += "<td><button class='btn btn-warning' onclick='editajax(" + JSON.stringify(output[i]) + ")'><i class='fas fa-edit fa-1x  '></i></button></td>";#}
+                    }
+
+                    document.getElementById("showresult").innerHTML = s;
+
+                }
+            };
+            xml.open("GET", "showresult?apid=" + c, true);
+            xml.send();
+        }
+
+        function viewresultdetail(resultid) {
+            var f = resultid;
+            alert(f);
+            window.location.href = 'showresultdetail?resultid=' + f;
+        }
+    </script>
+</head>
+<body>
+<div class="container p-5" style="background: rgba(0,0,0,0.5)">
+    <div class="text-center display-4 font-weight-bolder text-white">VIEW RESULT</div>
+    <div class="col-sm-6 input-group p-3 mt-3">
+        <span class="input-group-prepend">
+        <span class="text-white h3">Your id : &nbsp;</span>
+            </span>
+        <input type="text" readonly class="form-control border border-0" name="apid" id="apid"
+               value="{{ request.session.applicantid }}">
+        <span class="input-group-append">
+            <button class="btn btn-primary border border-0" onclick="showresult()">Get Result</button>
+        </span>
+    </div>
+</div>
+<div class="table-responsive">
+<table class="table container mt-2 table-hover" style="background: rgba(255,255,255,0.8)">
+    <thead class="bg-dark text-light">
+    <tr>
+        <th>Result Id</th>
+        <th>Applicant Id</th>
+        <th>Date</th>
+        <th>Section Id</th>
+        <th>Total Questions</th>
+        <th>Total Marks</th>
+        <th>Marks Obtained</th>
+        <th>Pass Status</th>
+        <th>Questions Attemped</th>
+        <th class="text-center">Information</th>
+    </tr>
+    </thead>
+    <tbody id="showresult">
+
+    </tbody>
+</table>
+</div>
+</body>
+</html>

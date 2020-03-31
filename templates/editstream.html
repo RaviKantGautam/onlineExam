@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    {% load static %}
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <style>
+        body {
+            background: url("{% static "images/cup-of-coffee-1280537_1920.jpg" %}") no-repeat center center/cover fixed;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+{% include 'navigation.html' %}
+<div class="container" style="background: rgba(255,255,255,0.8);padding-bottom: 1.5%">
+    <h1 class="text-center" style=";font-size: 40px ;color: blue;padding-top: 10%;margin-bottom: 3%">EDIT STEAM</h1>
+    <form action="savestream" method="GET" class="w-75 mx-auto p-3" style="box-shadow: 1px 1px 35px black">
+       <div class="w-75 mx-auto p-3">
+        <div class="form-group ">
+            <label for="streamid" style="font-size: 25px;font-style: italic">Streamid</label>
+            <input type="text" readonly class="form-control" name="streamid" value="{{ ar.streamid }}">
+        </div>
+        <div class="form-group ">
+            <label for="streamname" style="font-size: 25px;font-style: italic">Streamname</label>
+            <input type="text" required class="form-control" name="streamname" value="{{ ar.streamname }}">
+        </div>
+
+        <div class="form-group ">
+            <label for="description" style="font-size: 25px;font-style: italic">Description</label>
+            <input type="text" required class="form-control" name="description" value="{{ ar.description }}">
+        </div>
+
+        <div class="form-group ">
+            <label for="passper" style="font-size: 25px;font-style: italic">Pass percentage</label>
+            <input type="text" required class="form-control" name="passper" value="{{ ar.passper }}">
+        </div>
+        <div class="form-group text-center">
+            <input type="submit" class=" btn btn-success w-50 badge-pill" value="save">
+        </div>
+      </div>
+    </form>
+</div>
+</body>
+</html>
